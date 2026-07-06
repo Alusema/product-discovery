@@ -55,16 +55,18 @@ const cleanImageUrl = (image: string | null) => {
   }
 };
 
-export const products: Product[] = (rawItems as RawProduct[]).map((item) => ({
-  ...item,
-  title: cleanTitle(item.title),
-  brand: item.brand.trim(),
-  category: item.category.trim(),
-  tags: item.tags.map((tag) => tag.trim().toLowerCase()),
-  price: parsePrice(item.price),
-  image: cleanImageUrl(item.image),
-  description: item.description?.trim() ?? null,
-}));
+export const products: Product[] = (rawItems as RawProduct[])
+  .map((item) => ({
+    ...item,
+    title: cleanTitle(item.title),
+    brand: item.brand.trim(),
+    category: item.category.trim(),
+    tags: item.tags.map((tag) => tag.trim().toLowerCase()),
+    price: parsePrice(item.price),
+    image: cleanImageUrl(item.image),
+    description: item.description?.trim() ?? null,
+  }))
+  .filter((item): item is Product & { image: string } => item.image !== null);
 
 export const featuredProducts = [...products]
   .sort((a, b) => {
