@@ -40,6 +40,21 @@ const cleanTitle = (title: string) =>
     .toLowerCase()
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 
+const cleanImageUrl = (image: string | null) => {
+  if (!image) {
+    return null;
+  }
+
+  try {
+    const url = new URL(image);
+    const supportedHosts = new Set(["picsum.photos"]);
+
+    return supportedHosts.has(url.hostname) ? image : null;
+  } catch {
+    return null;
+  }
+};
+
 export const products: Product[] = (rawItems as RawProduct[]).map((item) => ({
   ...item,
   title: cleanTitle(item.title),
@@ -47,6 +62,7 @@ export const products: Product[] = (rawItems as RawProduct[]).map((item) => ({
   category: item.category.trim(),
   tags: item.tags.map((tag) => tag.trim().toLowerCase()),
   price: parsePrice(item.price),
+  image: cleanImageUrl(item.image),
   description: item.description?.trim() ?? null,
 }));
 
