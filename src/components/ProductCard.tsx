@@ -32,8 +32,9 @@ export function ProductCard({ product }: ProductCardProps) {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 18 }}
+      whileHover={{ y: -8 }}
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-      className="group overflow-hidden rounded-[28px] border border-stone-200/75 bg-white/82 shadow-[0_20px_60px_rgba(64,54,43,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-stone-300 hover:shadow-[0_28px_80px_rgba(64,54,43,0.14)]"
+      className="group overflow-hidden rounded-[28px] border border-stone-200/75 bg-white/82 shadow-[0_20px_60px_rgba(64,54,43,0.08)] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 will-change-transform hover:border-stone-300 hover:shadow-[0_28px_80px_rgba(64,54,43,0.14)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[linear-gradient(135deg,#f8f5ef,#ebe7df)]">
         {imageUrl ? (
@@ -43,6 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
             loading="lazy"
             onError={(event) => {
+              event.currentTarget.style.display = "none";
               event.currentTarget.removeAttribute("src");
               setImageFailed(true);
             }}
